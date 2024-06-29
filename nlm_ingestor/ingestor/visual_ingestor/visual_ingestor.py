@@ -3996,9 +3996,10 @@ class Doc:
                     if line_props.is_header and line_props.noun_chunks:
                         noun_chunk_str = " ".join(line_props.noun_chunks)
                         translated_str = last_line_text.translate(str.maketrans('', '', string.punctuation))
+                        non_stop_word_count = line_props.word_count - line_props.stop_word_count
                         if translated_str == noun_chunk_str or \
-                                (len(noun_chunk_str.split()) /
-                                 (line_props.word_count - line_props.stop_word_count)) > 0.75:
+                                non_stop_word_count == 0 or \
+                                (len(noun_chunk_str.split()) / non_stop_word_count) > 0.75:
                             vls_types.append("header")
                         else:
                             vls_types.append("NA")
